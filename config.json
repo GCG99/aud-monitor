@@ -1,0 +1,10 @@
+{
+    "api_key": "",
+    "base_currency": "CNY",
+    "send_time": "09:00",
+    "smtp_server": "smtp.qq.com",
+    "smtp_port": 587,
+    "sender_email": "184263343@qq.com",
+    "sender_password": "cbjqpzhjljthcadj",
+    "receiver_email": "gul288962@gmail.com"
+}
