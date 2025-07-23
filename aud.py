@@ -8,7 +8,6 @@
 import requests
 import json
 import time
-import schedule
 import logging
 from datetime import datetime
 import os
@@ -170,40 +169,19 @@ class AUDRateMonitor:
         else:
             logger.error("澳元汇率播报任务失败")
     
-    def start_monitoring(self):
-        """开始监控"""
-        logger.info("启动澳元汇率监控程序")
-        
-        # 设置定时任务
-        send_time = self.config.get('send_time', '09:00')
-        schedule.every().day.at(send_time).do(self.run_daily_task)
-        
-        logger.info(f"已设置每日 {send_time} 发送汇率信息")
-        
-        # 立即执行一次任务进行测试
-        logger.info("执行测试任务...")
+    def run_once(self):
+        """单次执行任务"""
+        logger.info("执行澳元汇率获取任务")
         self.run_daily_task()
-        
-        # 开始定时任务循环
-        while True:
-            try:
-                schedule.run_pending()
-                time.sleep(60)  # 每分钟检查一次
-            except KeyboardInterrupt:
-                logger.info("程序被用户中断")
-                break
-            except Exception as e:
-                logger.error(f"定时任务执行出错: {e}")
-                time.sleep(300)  # 出错后等待5分钟再继续
 
 
 def main():
     """主函数"""
     try:
         monitor = AUDRateMonitor()
-        monitor.start_monitoring()
+        monitor.run_once()
     except Exception as e:
-        logger.error(f"程序启动失败: {e}")
+        logger.error(f"程序执行失败: {e}")
 
 
 if __name__ == '__main__':
